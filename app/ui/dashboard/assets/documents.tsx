@@ -1,6 +1,6 @@
 import {fetchLatestDocuments} from "@/app/lib/data";
 
-export default async function Documents() {
+export async function Documents() {
   const documents = await fetchLatestDocuments();
 
   return (

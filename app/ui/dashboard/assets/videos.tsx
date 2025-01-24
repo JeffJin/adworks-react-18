@@ -1,6 +1,6 @@
 import {fetchLatestVideos} from "@/app/lib/data";
 
-export default async function Videos() {
+export async function Videos() {
   const videos = await fetchLatestVideos();
 
   return (

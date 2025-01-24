@@ -2,6 +2,41 @@
 const shimmer =
   'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
 
+export function DocumentSkeleton() {
+  return (
+    <div
+      className={`${shimmer} documents flex-grow`}
+    >
+      <div className="flex w-screen">
+
+      </div>
+    </div>
+  );
+}
+
+export function ImageSkeleton() {
+  return (
+    <div
+      className={`${shimmer} images flex-grow`}
+    >
+      <div className="flex w-screen">
+
+      </div>
+    </div>
+  );
+}
+export function VideoSkeleton() {
+  return (
+    <div
+      className={`${shimmer} videos flex-grow`}
+    >
+      <div className="flex w-screen">
+
+      </div>
+    </div>
+  );
+}
+
 export function CardSkeleton() {
   return (
     <div

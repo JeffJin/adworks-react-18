@@ -1,6 +1,6 @@
 import {fetchLatestImages} from "@/app/lib/data";
 
-export default async function Images() {
+export async function Images() {
   const images = await fetchLatestImages();
 
   return (

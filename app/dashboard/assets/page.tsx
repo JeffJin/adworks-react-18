@@ -1,27 +1,20 @@
 import {Suspense} from "react";
-import {
-  ActivityChartSkeleton,
-  CardsSkeleton,
-  LatestUploadersSkeleton,
-} from "@/app/ui/common/skeletons";
-import {fetchLatestVideos, fetchLatestImages, fetchLatestDocuments} from "@/app/lib/data";
 import "./assets.scss";
-import Videos from "@/app/ui/dashboard/assets/videos";
-import Images from "@/app/ui/dashboard/assets/images";
-import Documents from "@/app/ui/dashboard/assets/documents";
-
+import { VideoSkeleton, ImageSkeleton, DocumentSkeleton } from '@/app/ui/common/skeletons';
+import { Documents } from '@/app/ui/dashboard/assets/documents';
+import { Videos } from '@/app/ui/dashboard/assets/videos';
+import { Images } from '@/app/ui/dashboard/assets/images';
 
 export default async function Page() {
-  const documents = await fetchLatestDocuments();
   return (
     <div className="flex flex-col">
-      <Suspense fallback={<CardsSkeleton/>}>
+      <Suspense fallback={<VideoSkeleton/>}>
         <Videos/>
       </Suspense>
-      <Suspense fallback={<LatestUploadersSkeleton/>}>
+      <Suspense fallback={<ImageSkeleton/>}>
         <Images/>
       </Suspense>
-      <Suspense fallback={<ActivityChartSkeleton/>}>
+      <Suspense fallback={<DocumentSkeleton/>}>
         <Documents/>
       </Suspense>
     </div>
