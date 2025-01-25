@@ -5,6 +5,9 @@ import clsx from 'clsx';
 import { useState, useCallback } from 'react';
 import {lusitana} from "@/app/ui/fonts";
 import AdworksLogo from "@/app/ui/common/adworks-logo";
+import Link from "next/link";
+import { VideoCameraSlashIcon } from "@heroicons/react/24/outline";
+import { usePathname } from "next/navigation";
 
 export default function Home() {
   const [isValidEmail, setIsValidEmail] = useState(true);
@@ -20,6 +23,14 @@ export default function Home() {
       setEmail(val);
     }
   }
+
+  const link = {
+      name: 'Tic Toc Toe',
+      href: '/games',
+      icon: VideoCameraSlashIcon,
+  };
+  const LinkIcon = link.icon;
+  const pathname = usePathname();
 
   return (
     <div
@@ -45,6 +56,19 @@ export default function Home() {
           required
           onChange={(e) => validateEmail(e.target.value) }
         />
+          <Link
+              key={link.name}
+              href={link.href}
+              className={clsx(
+                  'flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3',
+                  {
+                      'bg-sky-100 text-blue-600': pathname === link.href,
+                  }
+              )}
+          >
+              <LinkIcon className="w-6"/>
+              <p className="hidden md:block">{link.name}</p>
+          </Link>
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
 
