@@ -1,13 +1,13 @@
 'use client'
 
 import './styles.scss';
-import { Board } from "@/app/games/board";
+import TicToc from "@/app/games/tictoc";
 
 export default function Home() {
 
   return (
     <>
-      <Board/>
+      <TicToc/>
     </>
   );
 }
