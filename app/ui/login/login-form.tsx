@@ -1,74 +1,122 @@
-import { lusitana } from '@/app/ui/fonts';
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-} from '@heroicons/react/24/outline';
-import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from '../common/button';
-import clsx from 'clsx';
+import { login } from '@/app/lib/login-service';
+import { loginImmerReducer } from '@/app/ui/login/login-immer-reducer';
+import { loginReducer } from '@/app/ui/login/login-reducer';
+import { useReducer } from 'react';
+import './login-form.scss';
+import { useImmerReducer } from 'use-immer';
 
-export default function LoginForm({ isValidEmail }: { isValidEmail: boolean }) {
+const initialForm = {
+  status: 'typing',
+  message: '',
+  password: '',
+  email: '',
+};
+
+export default function LoginForm() {
+  // const [email, setEmail] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [message, setMessage] = useState('');
+  // const [loginStatus, setLoginStatus] = useState('typing');
+  // const [form, dispatch] = useReducer(loginReducer, initialForm);
+
+  const [form, dispatch] = useImmerReducer(loginImmerReducer, initialForm);
+  const {message, email, password, status} = form;
+  const handleEmailChange = (event: any) => {
+    event.preventDefault();
+    dispatch({
+      type: 'updateEmail',
+      email: event.target.value,
+    })
+    // setLoginStatus('typing');
+    // setMessage('');
+    // setEmail(event.target.value);
+  }
+
+  const handlePasswordChange = (event: any) => {
+    event.preventDefault();
+    dispatch({
+      type: 'updatePassword',
+      password: event.target.value,
+    })
+  }
+
+  async function handleSubmit(event: any){
+    event.preventDefault();
+    dispatch({
+      type: 'updateStatus',
+      status: 'submitting',
+    });
+    // setLoginStatus('submitting');
+    try {
+      const {status, msg} = await login(email, password);
+      if(status == 200){
+        dispatch({
+          type: 'updateStatus',
+          status: 'success',
+        });
+        // setLoginStatus('success');
+      } else {
+        dispatch({
+          type: 'updateStatus',
+          status: 'typing',
+        });
+        // setLoginStatus('typing');
+      }
+      dispatch({
+        type: 'updateMessage',
+        message: msg,
+      });
+      // setMessage(msg);
+    } catch(err: any) {
+      dispatch({
+        type: 'updateError',
+        message: err.msg,
+        status: 'typing'
+      });
+      // setMessage(err.msg);
+      // setLoginStatus('typing');
+    }
+  }
+
+  const handleSignupClick = (event: any) => {
+    // showRegisterForm();
+    event.preventDefault();
+  }
+
+  const passwordValid = (pwd: string): boolean  => {
+    return pwd.length > 5;
+  }
+  const emailValid = (email: string): boolean  => {
+    return email.indexOf('@') >= 1;
+  }
+
+  const formValid = passwordValid(password) && emailValid(email);
+
   return (
-    <form className="space-y-3">
-      <div className="flex-1 rounded-lg bg-gray-50 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-          Please log in to continue.
-        </h1>
-        <div className="w-full">
-          <div>
-            <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <div className="relative">
-              <input
-                className={clsx(
-                   'peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500',
-                    {
-                      'text-amber-50': isValidEmail,
-                      'text-red-50': !isValidEmail,
-                    }
-                )}
-                id="email"
-                type="email"
-                name="email"
-                placeholder="Enter your email address"
-                required
-              />
-              <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
+    <div className='login-form'>
+      <div className={'wrapper'}>
+        <form onSubmit={handleSubmit}>
+          <h3>Sign In ({status})</h3>
+          {message &&
+            <p className={status == 'success' ? 'success' : 'error'}>{message}</p>
+          }
+          <div className={"row"}>
+            <label htmlFor={"email"}>Email:</label>
+            <input autoComplete="off" type={"text"} id={"email"} name={"email"} value={email}
+                   onChange={handleEmailChange}/>
           </div>
-          <div className="mt-4">
-            <label
-              className="mb-3 mt-5 block text-xs font-medium text-gray-900"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <div className="relative">
-              <input
-                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500"
-                id="password"
-                type="password"
-                name="password"
-                placeholder="Enter password"
-                required
-                minLength={6}
-              />
-              <KeyIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
+          <div className={"row"}>
+            <label htmlFor={"pwd"}>Password:</label>
+            <input type={"password"} id={"pwd"} name={"pwd"} value={password} onChange={handlePasswordChange}/>
           </div>
-        </div>
-        <Button className="mt-4 w-full">
-          Log in <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
-        </Button>
-        <div className="flex h-8 items-end space-x-1">
-          {/* Add form errors here */}
-        </div>
+          <div className={"row"}>
+            <button type="submit" disabled={!formValid || status == 'submitting'}>Login</button>
+          </div>
+          <div className={"row"}>
+            <button type="button" onClick={handleSignupClick}>Sign Up</button>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }
