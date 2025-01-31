@@ -1,7 +1,10 @@
+'use client';
+
 import { useState, useRef, useEffect } from 'react';
 
-function VideoPlayer({ src, isPlaying }: { src: string; isPlaying: boolean }) {
+export default function VideoPlayer({ src }: { src: string }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     if(ref.current) {
@@ -9,5 +12,11 @@ function VideoPlayer({ src, isPlaying }: { src: string; isPlaying: boolean }) {
     }
   }, [isPlaying]);
 
-  return <video ref={ref} src={src} loop playsInline />;
+  return (
+    <>
+      <video width="400" onClick={() => setIsPlaying(!isPlaying)} ref={ref} src={src} loop playsInline/>
+      <progress value={0.9}/>
+    </>
+  );
+
 }

@@ -22,10 +22,18 @@ export async function fetchActivities() {
   }
 }
 
+export interface Customer {
+  id: string;
+  name: string;
+  email: string;
+  image_url: string;
+  totalAssets?: number;
+}
+
 export async function fetchLatestUploaders() {
   try {
-    const customers = await fetchCustomers();
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    const customers = await fetchCustomers(6);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     const uploaders = customers.map(customer => {
       customer.totalAssets = Math.floor(Math.random() * 1000);
       return customer;
@@ -38,32 +46,32 @@ export async function fetchLatestUploaders() {
   }
 }
 
-export async function fetchLatestImages() {
+export async function fetchLatestImages(count: number) {
   try {
     const latestImages = [
-      {id: '100', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-100.jpg'},
-      {id: '101', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-101.jpg'},
-      {id: '102', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-102.jpg'},
-      {id: '103', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-103.jpg'},
-      {id: '104', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-104.jpg'},
-      {id: '105', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-105.jpg'},
-      {id: '106', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-106.jpg'},
-      {id: '107', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-107.jpg'},
-      {id: '108', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-108.jpg'},
-      {id: '109', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-109.jpg'},
-      {id: '110', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-110.jpg'},
-      {id: '111', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-111.jpg'},
-      {id: '112', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-112.jpg'},
-      {id: '113', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-113.jpg'},
-      {id: '114', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-114.jpg'},
-      {id: '115', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-115.jpg'},
-      {id: '116', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-116.jpg'},
-      {id: '117', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-117.jpg'},
-      {id: '118', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-118.jpg'},
-      {id: '119', url: 'https://github.com/yavuzceliker/sample-images/blob/main/images/image-119.jpg'},
+      {id: '100', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-100.jpg'},
+      {id: '101', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-101.jpg'},
+      {id: '102', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-102.jpg'},
+      {id: '103', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-103.jpg'},
+      {id: '104', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-104.jpg'},
+      {id: '105', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-105.jpg'},
+      {id: '106', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-106.jpg'},
+      {id: '107', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-107.jpg'},
+      {id: '108', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-108.jpg'},
+      {id: '109', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-109.jpg'},
+      {id: '110', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-110.jpg'},
+      {id: '111', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-111.jpg'},
+      {id: '112', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-112.jpg'},
+      {id: '113', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-113.jpg'},
+      {id: '114', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-114.jpg'},
+      {id: '115', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-115.jpg'},
+      {id: '116', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-116.jpg'},
+      {id: '117', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-117.jpg'},
+      {id: '118', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-118.jpg'},
+      {id: '119', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-119.jpg'},
     ];
     await new Promise((resolve) => setTimeout(resolve, 500));
-    return latestImages;
+    return latestImages.slice(0, count);
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch the latest images.');
@@ -76,7 +84,7 @@ export async function fetchLatestDocuments() {
 
     ];
     await new Promise((resolve) => setTimeout(resolve, 1500));
-    return latestDocuments;
+    return [];
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to fetch the latest images.');
@@ -192,7 +200,7 @@ export async function fetchStatsData() {
   }
 }
 
-export async function fetchCustomers() {
+export async function fetchCustomers(num: number): Promise<Customer[]> {
   try {
     const customers = [
       {
@@ -233,8 +241,8 @@ export async function fetchCustomers() {
       },
     ];
     await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    return customers;
+    console.log('retrieving customers from backend...');
+    return customers.slice(0, num);
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all customers.');

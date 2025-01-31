@@ -6,7 +6,7 @@ export default function TaskSummary() {
   const total = tasks.length;
   return (
     <p>
-      <div>Total {checked} out of {total} are completed</div>
+      Total {checked} out of {total} are completed.
     </p>
   );
 }

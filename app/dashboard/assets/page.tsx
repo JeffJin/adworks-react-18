@@ -5,7 +5,7 @@ import { Documents } from '@/app/ui/dashboard/assets/documents';
 import { Videos } from '@/app/ui/dashboard/assets/videos';
 import { Images } from '@/app/ui/dashboard/assets/images';
 
-export default async function Page() {
+export default function Page() {
   return (
     <div className="flex flex-col">
       <Suspense fallback={<VideoSkeleton/>}>

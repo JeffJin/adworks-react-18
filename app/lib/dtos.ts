@@ -18,9 +18,9 @@ export interface Device extends Entity {
   appVersion: number;
   locationId: string;
   activatedOn?: Date;
-  lastStatus?: DeviceStatusDto;
+  // lastStatus?: DeviceStatusDto;
   isOnline?: boolean;
-  licenses?: Array<LicenseDto>;
+  // licenses?: Array<LicenseDto>;
 }
 
 export interface License extends Entity {
@@ -48,8 +48,8 @@ export interface Playlist extends Entity {
   // daily start and end time in minutes, offset from midnight
   startTime: number;
   endTime: number;
-  deviceGroups: GroupDto[];
-  subPlaylists: SubPlaylistDto[];
+  // deviceGroups: GroupDto[];
+  // subPlaylists: SubPlaylistDto[];
 }
 
 
@@ -59,7 +59,7 @@ export interface SubPlaylist extends Entity {
   positionY: number; // top left corner in a screen
   width: number; // 0 to 100 percentage
   height: number; // 0 to 100 percentage
-  playlistItems: PlaylistItemDto[];
+  // playlistItems: PlaylistItemDto[];
 }
 
 export interface PlaylistItem extends Entity {

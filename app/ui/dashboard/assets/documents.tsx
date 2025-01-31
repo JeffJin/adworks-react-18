@@ -1,12 +1,12 @@
 import {fetchLatestDocuments} from "@/app/lib/data";
 
-export async function Documents() {
-  const documents = await fetchLatestDocuments();
+export function Documents() {
+  // const documents = await fetchLatestDocuments();
 
   return (
     <div className="documents flex-grow">
       <p>Documents</p>
-      <pre>{JSON.stringify(documents, null, 2)}</pre>
+      {/*<pre>{JSON.stringify(documents, null, 2)}</pre>*/}
     </div>
   );
 }
