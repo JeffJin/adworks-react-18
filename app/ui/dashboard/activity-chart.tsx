@@ -1,15 +1,25 @@
+'use client';
 import { generateYAxis } from '@/app/lib/utils';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
-import { fetchActivities } from '@/app/lib/data';
+import { Customer, fetchActivities, fetchLatestUploaders } from '@/app/lib/data';
+import { useCallback, useEffect, useState } from 'react';
 
 // For data visualization UI, check out:
 // https://www.tremor.so/
 // https://www.chartjs.org/
 // https://airbnb.io/visx/
 
-export default async function ActivityChart() {
-  const activities = await fetchActivities(); // Fetch data inside the component
+export default function ActivityChart() {
+  const [activities, setActivities] = useState<Array<{month: string, activities: number}>>([]);
+  const getActivities = useCallback(async () => {
+    const data = await fetchActivities();
+    setActivities(data);
+  }, [])
+  useEffect(() => {
+    getActivities().catch(console.error);
+  },[getActivities]);
+
   const chartHeight = 350;
   if (!activities || activities.length === 0) {
     return <p className="mt-4 text-gray-400">No data available.</p>;

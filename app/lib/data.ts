@@ -30,7 +30,7 @@ export interface Customer {
   totalAssets?: number;
 }
 
-export async function fetchLatestUploaders() {
+export async function fetchLatestUploaders(): Promise<Customer[]> {
   try {
     const customers = await fetchCustomers(6);
     await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -49,6 +49,7 @@ export async function fetchLatestUploaders() {
 export async function fetchLatestImages(count: number) {
   try {
     const latestImages = [
+      {id: '999', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/invalid-100.jpg'},
       {id: '100', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-100.jpg'},
       {id: '101', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-101.jpg'},
       {id: '102', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-102.jpg'},
@@ -69,6 +70,16 @@ export async function fetchLatestImages(count: number) {
       {id: '117', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-117.jpg'},
       {id: '118', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-118.jpg'},
       {id: '119', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-119.jpg'},
+      {id: '120', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-120.jpg'},
+      {id: '121', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-121.jpg'},
+      {id: '122', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-122.jpg'},
+      {id: '123', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-123.jpg'},
+      {id: '124', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-124.jpg'},
+      {id: '125', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-125.jpg'},
+      {id: '126', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-126.jpg'},
+      {id: '127', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-127.jpg'},
+      {id: '128', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-128.jpg'},
+      {id: '129', url: 'https://raw.githubusercontent.com/yavuzceliker/sample-images/refs/heads/main/images/image-129.jpg'},
     ];
     await new Promise((resolve) => setTimeout(resolve, 500));
     return latestImages.slice(0, count);

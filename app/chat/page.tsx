@@ -1,5 +1,6 @@
 'use client';
 
+import { useOnlineStatus } from '@/app/chat/chat-api';
 import ContactList from '@/app/chat/chat-list';
 import ChatRoom from '@/app/chat/chat-room';
 import { fetchCustomers } from '@/app/lib/data';
@@ -73,6 +74,8 @@ export default function Page() {
 
   const [roomId, setRoomId] = useState('general');
   const [isDark, setIsDark] = useState(false);
+
+  const isOnline = useOnlineStatus();
   return (
     <>
       {users.length && <ContactList
@@ -106,6 +109,9 @@ export default function Page() {
         roomId={roomId}
         theme={isDark ? 'dark' : 'light'}
       />
+      <label>
+        User is {isOnline ? 'online' : 'offline'}
+      </label>
     </>
   );
 }
@@ -117,9 +123,3 @@ interface User {
   isSelected: boolean;
   message: string;
 }
-
-const contacts = [
-  {name: 'Taylor', email: 'taylor@mail.com', isSelected: true, message: ''},
-  {name: 'Alice', email: 'alice@mail.com', isSelected: false, message: ''},
-  {name: 'Bob', email: 'bob@mail.com', isSelected: false, message: ''}
-];

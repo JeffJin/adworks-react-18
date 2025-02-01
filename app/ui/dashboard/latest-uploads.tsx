@@ -2,10 +2,24 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
-import {fetchLatestUploaders} from "@/app/lib/data";
+import { Customer, fetchLatestUploaders } from '@/app/lib/data';
+import { useCallback, useEffect, useState } from 'react';
 
-export default async function LatestUploads() {
-  const latestUploaders = await fetchLatestUploaders();
+export default function LatestUploads() {
+  const [latestUploaders, setLatestUploaders] = useState<Customer[]>([]);
+  // const getUsers = useCallback(async () => {
+  //   const users = await fetchLatestUploaders();
+  //   setLatestUploaders(users);
+  // }, [])
+  useEffect(() => {
+    // getUsers().catch(console.error);
+    const getUsers = async () => {
+      const users = await fetchLatestUploaders();
+      setLatestUploaders(users);
+    };
+    getUsers();
+  },[]);
+
   return (
     <div className="flex w-full flex-col md:col-span-4">
       <h2 className={`${lusitana.className} mb-4 text-xl md:text-2xl`}>

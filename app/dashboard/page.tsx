@@ -7,8 +7,18 @@ import LatestUploads from "@/app/ui/dashboard/latest-uploads";
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import {ActivityChartSkeleton, LatestUploadersSkeleton} from "@/app/ui/common/skeletons";
 
+let userInfoLoaded = false;
+
 export default function Page() {
   const [statsData, setStatsData] = useState<Stats | null>(null);
+  useEffect(() => {
+    if (!userInfoLoaded) {
+      userInfoLoaded = true;
+      // ✅ Only runs once per app load
+      const info = loadDataFromLocalStorage();
+      checkAuthToken(info);
+    }
+  }, []);
   const fetchData = useCallback(async () => {
     const data = await fetchStatsData();
     setStatsData(data);
@@ -16,6 +26,14 @@ export default function Page() {
   useEffect(() => {
     fetchData().catch(console.error);
   },[fetchData]);
+
+  const loadDataFromLocalStorage = (): any => {
+    console.log('Loading user data from local storage');
+    return {token: '', expires: Date.now(), email: 'jeff@jeffjin.com'};
+  }
+  const checkAuthToken = (info: any) => {
+    console.log('Checking auth token', info);
+  }
 
   return (
     <main>

@@ -88,6 +88,15 @@ export interface PlaylistGroup extends Entity {
   groupId: string;
 }
 
+export interface VisibleImage {
+  id: string,
+  url: string,
+  width: number,
+  height: number,
+  description?: string;
+  title?: string;
+}
+
 export interface Image extends Entity {
   encodedFilePath: string;
   cloudUrl: string;
