@@ -1,6 +1,6 @@
 'use client';
 
-import { useOnlineStatus } from '@/app/chat/chat-api';
+import { useOnlineStatus, useOnlineStatusEffect } from '@/app/chat/chat-api';
 import ContactList from '@/app/chat/chat-list';
 import ChatRoom from '@/app/chat/chat-room';
 import { fetchCustomers } from '@/app/lib/data';
@@ -75,7 +75,11 @@ export default function Page() {
   const [roomId, setRoomId] = useState('general');
   const [isDark, setIsDark] = useState(false);
 
-  const isOnline = useOnlineStatus();
+  const isOnline = useOnlineStatusEffect();
+  function handleSaveClick() {
+    console.log('✅ Progress saved');
+  }
+
   return (
     <>
       {users.length && <ContactList
@@ -109,9 +113,11 @@ export default function Page() {
         roomId={roomId}
         theme={isDark ? 'dark' : 'light'}
       />
-      <label>
-        User is {isOnline ? 'online' : 'offline'}
-      </label>
+      <h1> User is {isOnline ? '✅ Online' : '❌ Disconnected'}</h1>
+      <button disabled={!isOnline} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+              onClick={handleSaveClick}>
+        {isOnline ? 'Save progress' : 'Reconnecting...'}
+      </button>
     </>
   );
 }

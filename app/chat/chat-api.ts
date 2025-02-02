@@ -2,22 +2,22 @@ import { useEffect, useState, useSyncExternalStore } from 'react';
 
 export function createConnection(serverUrl: string, roomId: string) {
   // A real implementation would actually connect to the server
-  let connectedCallback: (() => void) | null = null;
+  let connectedCallback: ((msg: string) => void) | null = null;
   let timeout: any;
   return {
     connect() {
       timeout = setTimeout(() => {
         if (connectedCallback) {
-          connectedCallback();
+          connectedCallback(new Date().toISOString());
         }
       }, 500);
     },
-    on(event: string, callback: (() => void) | null) {
-      if (connectedCallback) {
-        throw Error('Cannot add the handler twice.');
-      }
-      if (event !== 'connected') {
-        throw Error('Only "connected" event is supported.');
+    on(event: string, callback: ((msg: string) => void) | null) {
+      // if (connectedCallback) {
+      //   throw Error('Cannot add the handler twice.');
+      // }
+      if (event !== 'connected' && event !== 'message' ) {
+        throw Error('Only "connected/message" events are supported.');
       }
       connectedCallback = callback;
     },

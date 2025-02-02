@@ -1,5 +1,5 @@
 'use client';
-import { ChatBubbleOvalLeftIcon } from '@heroicons/react/16/solid';
+import { PhotoIcon } from '@heroicons/react/16/solid';
 import {
   UserGroupIcon,
   HomeIcon,
@@ -14,12 +14,16 @@ import clsx from 'clsx';
 const links = [
   {name: 'Home', href: '/dashboard', icon: HomeIcon},
   {
-    name: 'Assets',
-    href: '/dashboard/assets',
+    name: 'Videos',
+    href: '/dashboard/videos',
     icon: VideoCameraSlashIcon,
   },
+  {
+    name: 'Images',
+    href: '/dashboard/images',
+    icon: PhotoIcon,
+  },
   {name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon},
-  {name: 'Chat', href: '/chat', icon: ChatBubbleOvalLeftIcon},
 ];
 
 export default function NavLinks() {
