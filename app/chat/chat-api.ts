@@ -1,31 +1,40 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
-export function createConnection(serverUrl: string, roomId: string) {
+export function createConnection({ serverUrl, roomId }: { serverUrl?: string; roomId?: string }) {
   // A real implementation would actually connect to the server
-  let connectedCallback: ((msg: string) => void) | null = null;
-  let timeout: any;
+  let intervalId: any;
+  let messageCallback: ((message: string) => void) | null;
   return {
     connect() {
-      timeout = setTimeout(() => {
-        if (connectedCallback) {
-          connectedCallback(new Date().toISOString());
+      console.log('✅ Connecting to "' + roomId + '" room at ' + serverUrl + '...');
+      clearInterval(intervalId);
+      intervalId = setInterval(() => {
+        if (messageCallback) {
+          if (Math.random() > 0.5) {
+            messageCallback('hey')
+          } else {
+            messageCallback('lol');
+          }
         }
-      }, 500);
-    },
-    on(event: string, callback: ((msg: string) => void) | null) {
-      // if (connectedCallback) {
-      //   throw Error('Cannot add the handler twice.');
-      // }
-      if (event !== 'connected' && event !== 'message' ) {
-        throw Error('Only "connected/message" events are supported.');
-      }
-      connectedCallback = callback;
+      }, 3000);
     },
     disconnect() {
-      clearTimeout(timeout);
-    }
+      clearInterval(intervalId);
+      messageCallback = null;
+      console.log('❌ Disconnected from "' + roomId + '" room at ' + serverUrl + '');
+    },
+    on(event: string, callback: (message: string) => void) {
+      if (messageCallback) {
+        throw Error('Cannot add the handler twice.');
+      }
+      if (event !== 'message') {
+        throw Error('Only "message" event is supported.');
+      }
+      messageCallback = callback;
+    },
   };
 }
+
 
 export function useOnlineStatusEffect() {
   // Not ideal: Manual store subscription in an Effect
@@ -60,8 +69,8 @@ export function useOnlineStatus() {
   // ✅ Good: Subscribing to an external store with a built-in Hook
   return useSyncExternalStore(
     subscribe, // React won't resubscribe for as long as you pass the same function
-    () => navigator.onLine, // How to get the value on the client, setIsOnline(navigator.onLine);
-    () => true // How to get the value on the server, useState(true);
+    () => navigator.onLine, // How to get the value on the client, client snapshot;
+    () => true // How to get the value on the server, server snapshot;
   );
 }
 

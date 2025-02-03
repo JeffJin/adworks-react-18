@@ -7,6 +7,7 @@ export function useImages(count: number): VisibleImage[] {
   console.log('useImages hook gets called', count);
   const [images, setImages] = useState<VisibleImage[]>([]);
   const fetchImages = useCallback(async (count: number) => {
+    console.log('fetchImages api gets called', count);
     let ignore = false;
     const rawImages = await fetchLatestImages(count);
     const newImagePromises = rawImages.map(async (c) => {
@@ -32,9 +33,7 @@ export function useImages(count: number): VisibleImage[] {
         };
       }
     });
-    console.time('Image Infos loaded');
     const newImages = await Promise.all(newImagePromises);
-    console.timeEnd('Image Infos loaded');
     if (!ignore) {
       setImages(newImages);
     }
@@ -44,7 +43,9 @@ export function useImages(count: number): VisibleImage[] {
   }, []);
 
   useEffect(() => {
-    fetchImages(count).catch(console.error);
+    if(count > 0) {
+      fetchImages(count).catch(console.error);
+    }
   }, [fetchImages, count]);
 
   return images;

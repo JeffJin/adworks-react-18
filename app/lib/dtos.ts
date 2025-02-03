@@ -1,4 +1,4 @@
-export interface Audio extends Entity {
+export interface IAudio extends IEntity {
   encodedFilePath: string;
   cloudUrl: string;
   duration: number;
@@ -9,7 +9,7 @@ export interface Audio extends Entity {
   tags: string;
 }
 
-export interface Device extends Entity {
+export interface IDevice extends IEntity {
   serialNumber: string;
   deviceGroupName: string;
   organizationName: string;
@@ -23,25 +23,25 @@ export interface Device extends Entity {
   // licenses?: Array<LicenseDto>;
 }
 
-export interface License extends Entity {
+export interface ILicense extends IEntity {
   deviceId: string;
   type: string;
   expireOn: Date;
 }
 
 
-export interface DeviceStatus extends Entity {
+export interface IDeviceStatus extends IEntity {
   deviceId: string;
   status: string;
 }
 
-export interface Group extends Entity {
+export interface IGroup extends IEntity {
   name: string;
   numOfDevices?: number;
   numOfPlaylists?: number;
 }
 
-export interface Playlist extends Entity {
+export interface IPlaylist extends IEntity {
   name: string;
   startDate: Date;
   endDate: Date;
@@ -53,7 +53,7 @@ export interface Playlist extends Entity {
 }
 
 
-export interface SubPlaylist extends Entity {
+export interface ISubPlaylist extends IEntity {
   playlistId: string;
   positionX: number; // top left corner in a screen
   positionY: number; // top left corner in a screen
@@ -62,7 +62,7 @@ export interface SubPlaylist extends Entity {
   // playlistItems: PlaylistItemDto[];
 }
 
-export interface PlaylistItem extends Entity {
+export interface IPlaylistItem extends IEntity {
   index: number;
   subPlaylistId: string;
   mediaAssetId: string; // media asset id
@@ -73,17 +73,17 @@ export interface PlaylistItem extends Entity {
   cacheLocation: string;
 }
 
-export interface Customer extends Entity {
+export interface ICustomer extends IEntity {
   name: string;
 }
 
-export interface Location extends Entity {
+export interface ILocation extends IEntity {
   address: string;
   locale: string;
   timezoneOffset: number;
 }
 
-export interface PlaylistGroup extends Entity {
+export interface IPlaylistGroup extends IEntity {
   playlistId: string;
   groupId: string;
 }
@@ -97,7 +97,7 @@ export interface VisibleImage {
   title?: string;
 }
 
-export interface Image extends Entity {
+export interface IImage extends IEntity {
   encodedFilePath: string;
   cloudUrl: string;
   category: string;
@@ -107,7 +107,7 @@ export interface Image extends Entity {
   tags: string;
 }
 
-export interface Video extends Entity {
+export interface IVideo extends IEntity {
   cloudUrl: string;
   encodedFilePath: string;
   progressiveUrl: string;
@@ -126,14 +126,21 @@ export interface Video extends Entity {
   assetType?: string;
 }
 
-export interface UserDto{
+export interface IUser{
   userName: string;
   email: string;
   phoneNumber: string;
   token?: string;
 }
 
-export class Entity{
+export interface ILoginForm{
+  email: string;
+  password: string;
+  status: string;
+  message: string;
+}
+
+export interface IEntity{
   id?: string;
   createdOn?: Date;
   updatedOn?: Date;

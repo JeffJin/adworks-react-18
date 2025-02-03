@@ -20,6 +20,7 @@ export default function ChatRoom({roomId, theme}: {roomId: string, theme: string
 }
 
 export function useChatRoom({roomId, onMessage}: {roomId: string, onMessage: (msg: string) => void}) {
+
   useEffect(() => {
     const connection = createConnection(serverUrl, roomId);
     connection.on('connected', () => {

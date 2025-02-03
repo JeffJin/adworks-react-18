@@ -1,4 +1,5 @@
 'use client';
+import { useFadeIn } from '@/app/ui/common/use-fade-in';
 import { ImagePreview } from '@/app/ui/dashboard/assets/image-preview';
 import { useImages, useImageRefs, useDebounce } from '@/app/ui/dashboard/assets/image-hooks';
 import { useMemo, useState } from 'react';
