@@ -5,8 +5,6 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 export enum LoginFormStatus {
   Typing = 'typing',
   Submitting = 'submitting',
-  Submitted = 'submitted',
-  Reset = 'reset',
   Success = 'success',
   None = '',
 }
@@ -42,6 +40,12 @@ export const loginFormSlice = createSlice({
     updateMessage: (state, action: PayloadAction<string>) => {
       state.message = action.payload;
     },
+    resetLoginForm: (state) => {
+      state.message = '';
+      state.status = LoginFormStatus.None;
+      state.email = '';
+      state.password = '';
+    },
 
   },
 });
@@ -53,5 +57,6 @@ export const {
   updatePassword,
   updateMessage,
   submitForm,
+  resetLoginForm,
 } = loginFormSlice.actions;
 export const loginFormReducer = loginFormSlice.reducer;

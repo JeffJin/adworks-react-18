@@ -1,4 +1,5 @@
 import { IUser } from '@/app/lib/dtos';
+import { RootState } from '@/app/store/store';
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -29,5 +30,5 @@ export const {
   login,
   logout
 } = authSlice.actions;
-export const selectUser = (state: IAuthState) => state.user;
+export const selectUser = (state: RootState) => state.auth.user;
 export const authReducer = authSlice.reducer;

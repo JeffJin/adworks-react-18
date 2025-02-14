@@ -1,16 +1,15 @@
-import loginService from '@/app/lib/login-service';
 import './login-form.scss';
-import { login } from '@/app/store/auth/auth-slice';
 import {
   LoginFormStatus,
+  submitForm,
   updateEmail,
   updateError,
   updateMessage,
   updatePassword,
   updateStatus,
-  submitForm,
 } from '@/app/store/auth/login-form-slice';
-import { useAppDispatch, useAppSelector } from '@/app/store/store';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks/hooks';
+import { submitLoginFormAction } from '@/app/ui/auth/auth-thunks';
 import Link from 'next/link';
 
 
@@ -27,25 +26,9 @@ export default function LoginForm() {
     dispatch(updatePassword(event.target.value));
   }
 
-  async function handleSubmit(event: any){
+  function handleSubmit(event: any){
     event.preventDefault();
-    dispatch(submitForm());
-
-    try {
-      const {status, msg, user} = await loginService.login(email, password);
-      if(status == 200){
-        dispatch(updateStatus(LoginFormStatus.Success));
-        dispatch(login(user));
-      } else {
-        dispatch(updateStatus(LoginFormStatus.Typing));
-      }
-      dispatch(updateMessage(msg));
-    } catch(err: any) {
-      dispatch(updateError({
-        message: err.msg,
-        status: LoginFormStatus.Typing
-      }));
-    }
+    dispatch(submitLoginFormAction(email, password));
   }
 
   const passwordValid = (pwd: string): boolean  => {
@@ -62,6 +45,13 @@ export default function LoginForm() {
 
   const formValid = passwordValid(password) && emailValid(email);
 
+  const handleFocus = () => {
+    dispatch(updateStatus(LoginFormStatus.Typing));
+  };
+  const handleBlur = () => {
+    dispatch(updateStatus(LoginFormStatus.None));
+  };
+
   return (
     <div className='login-form'>
       <div className={'wrapper'}>
@@ -73,11 +63,12 @@ export default function LoginForm() {
           <div className={"row"}>
             <label htmlFor={"email"}>Email:</label>
             <input autoComplete="off" type={"text"} id={"email"} name={"email"} value={email}
-                   onChange={handleEmailChange}/>
+                   onChange={handleEmailChange} onFocus={handleFocus} onBlur={handleBlur} />
           </div>
           <div className={"row"}>
             <label htmlFor={"pwd"}>Password:</label>
-            <input type={"password"} id={"pwd"} name={"pwd"} value={password} onChange={handlePasswordChange}/>
+            <input type={"password"} id={"pwd"} name={"pwd"} value={password}
+                   onChange={handlePasswordChange}  onFocus={handleFocus} onBlur={handleBlur} />
           </div>
           <div className={"row"}>
             <button type="submit" disabled={!formValid || status == 'submitting'}>Login</button>

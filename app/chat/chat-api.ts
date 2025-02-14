@@ -24,10 +24,7 @@ export function createConnection({ serverUrl, roomId }: { serverUrl?: string; ro
       console.log('❌ Disconnected from "' + roomId + '" room at ' + serverUrl + '');
     },
     on(event: string, callback: (message: string) => void) {
-      if (messageCallback) {
-        throw Error('Cannot add the handler twice.');
-      }
-      if (event !== 'message') {
+      if (event !== 'message' && event !== 'connected') {
         throw Error('Only "message" event is supported.');
       }
       messageCallback = callback;
