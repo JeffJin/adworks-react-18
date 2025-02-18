@@ -1,4 +1,4 @@
-import { useTasksDispatch } from '@/app/tasks/tasks-provider';
+import { useTasksDispatch } from '@/app/(public)/tasks/tasks-provider';
 import { useState } from 'react';
 
 export default function AddTask() {

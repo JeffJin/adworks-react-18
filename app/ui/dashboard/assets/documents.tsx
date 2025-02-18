@@ -1,4 +1,4 @@
-import {fetchLatestDocuments} from "@/app/lib/data";
+import {fetchLatestDocuments} from "@/app/lib/services/data";
 
 export function Documents() {
   // const documents = await fetchLatestDocuments();

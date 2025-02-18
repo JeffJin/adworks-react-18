@@ -1,5 +1,5 @@
-import { calculateWinner } from '@/app/games/rules';
-import { Square } from "@/app/games/square";
+import { calculateWinner } from '@/app/(public)/games/rules';
+import { Square } from "@/app/(public)/games/square";
 
 export default function Board({xIsNext, squares, onPlay}:
                               {xIsNext: boolean, squares: string[], onPlay: (square: string[]) => void} ) {

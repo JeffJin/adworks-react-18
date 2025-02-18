@@ -1,7 +1,7 @@
 //TODO fix async issue
 /// <reference types="react/experimental" />
 
-import { createConnection } from '@/app/chat/chat-api';
+import { createConnection } from '@/app/(public)/chat/chat-api';
 import { showNotification } from '@/app/ui/common/notifications';
 import { useState, useEffect, useCallback, experimental_useEffectEvent as useEffectEvent } from 'react';
 

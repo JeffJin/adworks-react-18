@@ -1,4 +1,4 @@
-import {fetchCustomers} from "@/app/lib/data";
+import {fetchCustomers} from "@/app/lib/services/data";
 
 export default function Page() {
 

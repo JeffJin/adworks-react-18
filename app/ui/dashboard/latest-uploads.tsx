@@ -2,7 +2,7 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Image from 'next/image';
 import { lusitana } from '@/app/ui/fonts';
-import { Customer, fetchLatestUploaders } from '@/app/lib/data';
+import { Customer, fetchLatestUploaders } from '@/app/lib/services/data';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function LatestUploads() {

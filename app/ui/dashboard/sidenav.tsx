@@ -1,7 +1,6 @@
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/16/solid';
 import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
-import { PowerIcon } from '@heroicons/react/24/outline';
 import AdworksLogo from "@/app/ui/common/adworks-logo";
 
 export default function SideNav() {

@@ -1,5 +1,5 @@
-import loginService from '@/app/lib/login-service';
-import { login, logout } from '@/app/store/auth/auth-slice';
+import loginService from '@/app/lib/services/login-service';
+import { authActions } from '@/app/store/auth/auth-slice';
 import {
   LoginFormStatus,
   resetLoginForm,
@@ -26,7 +26,7 @@ export function submitLoginFormAction(email: string, password: string): any {
       const {status, msg, user} = await loginService.login(email, password);
       if(status == 200){
         dispatch(updateStatus(LoginFormStatus.Success));
-        dispatch(login(user));
+        dispatch(authActions.login(user));
       } else {
         dispatch(updateStatus(LoginFormStatus.None));
       }
@@ -46,7 +46,7 @@ export function logoutAction(e: any): any {
     console.debug('logoutAction dispatched', serviceBaseApi);
     e.preventDefault();
     await loginService.logout();
-    dispatch(logout());
+    dispatch(authActions.logout());
     dispatch(resetLoginForm());
   };
 }

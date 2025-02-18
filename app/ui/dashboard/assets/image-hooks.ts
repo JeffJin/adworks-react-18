@@ -1,6 +1,6 @@
-import { fetchLatestImages } from '@/app/lib/data';
-import { VisibleImage } from '@/app/lib/dtos';
-import { getImageInfo } from '@/app/lib/util';
+import { fetchLatestImages } from '@/app/lib/services/data';
+import { VisibleImage } from '@/app/lib/models/dtos';
+import { getImageInfo } from '@/app/lib/utils/imageUtils';
 import { createRef, RefObject, useCallback, useEffect, useState } from 'react';
 
 export function useImages(count: number): VisibleImage[] {

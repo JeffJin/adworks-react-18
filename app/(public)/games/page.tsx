@@ -1,7 +1,7 @@
 'use client'
 
 import './styles.scss';
-import TicToc from "@/app/games/tictoc";
+import TicToc from "@/app/(public)/games/tictoc";
 import Canvas from '@/app/ui/common/canvas';
 import { useRef } from 'react';
 

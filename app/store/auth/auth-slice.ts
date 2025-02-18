@@ -1,16 +1,14 @@
-import { IUser } from '@/app/lib/dtos';
+import { IUser } from '@/app/lib/models/dtos';
 import { RootState } from '@/app/store/store';
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IAuthState {
   user: IUser | null;
-  isAdmin: boolean;
 }
 
 const initialState: IAuthState = {
   user: null,
-  isAdmin: false,
 };
 
 export const authSlice = createSlice({
@@ -26,9 +24,7 @@ export const authSlice = createSlice({
   },
 });
 
-export const {
-  login,
-  logout
-} = authSlice.actions;
+export const authActions = authSlice.actions;
 export const selectUser = (state: RootState) => state.auth.user;
+export const selectIsAuthenticated = (state: RootState) => state.auth.user != null && !!state.auth.user.token&& state.auth.user.token.length > 0;
 export const authReducer = authSlice.reducer;

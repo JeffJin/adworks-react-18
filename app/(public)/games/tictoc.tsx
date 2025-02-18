@@ -1,4 +1,4 @@
-import Board from '@/app/games/board';
+import Board from '@/app/(public)/games/board';
 import { useState } from 'react';
 
 

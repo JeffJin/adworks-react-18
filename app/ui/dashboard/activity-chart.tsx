@@ -1,8 +1,8 @@
 'use client';
-import { generateYAxis } from '@/app/lib/utils';
+import { generateYAxis } from '@/app/lib/utils/formatters';
 import { CalendarIcon } from '@heroicons/react/24/outline';
 import { lusitana } from '@/app/ui/fonts';
-import { Customer, fetchActivities, fetchLatestUploaders } from '@/app/lib/data';
+import { Customer, fetchActivities, fetchLatestUploaders } from '@/app/lib/services/data';
 import { useCallback, useEffect, useState } from 'react';
 
 // For data visualization UI, check out:

@@ -1,4 +1,4 @@
-import { IUser } from '@/app/lib/dtos';
+import { IUser } from '@/app/lib/models/dtos';
 import { SERVER_API } from '@/app/lib/settings';
 
 

@@ -1,4 +1,4 @@
-import { ILoginForm } from '@/app/lib/dtos';
+import { ILoginForm } from '@/app/lib/models/dtos';
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 

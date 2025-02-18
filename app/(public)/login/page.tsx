@@ -7,7 +7,6 @@ import LoginForm from '@/app/ui/auth/login-form';
 import { Logout } from '@/app/ui/auth/logout';
 
 export default function Page() {
-  // const user = useAppSelector((state) => state.auth.user);
   const user = useAppSelector(selectUser);
   console.log('login page', user);
   return (

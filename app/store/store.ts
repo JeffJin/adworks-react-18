@@ -1,21 +1,22 @@
+import { dashboardReducer } from '@/app/store/auth/dashboard-slice';
 import { loginFormReducer } from '@/app/store/auth/login-form-slice';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { applyMiddleware, compose, createStore } from 'redux';
-import thunkMiddleware from 'redux-thunk';
 import logger from './logger';
 import monitorReducerEnhancer from './monitorReducerEnhancer';
-import loggerMiddleware from './logger'
-import { persistReducer, persistStore } from 'redux-persist';
+import {
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER, } from 'redux-persist';
 import sessionStorage from 'redux-persist/es/storage/session';
 import storage from "redux-persist/lib/storage";
 import { authReducer } from "./auth/auth-slice";
 
 const serviceBaseApi =  process.env.NODE_ENV !== "production"
   ? 'https://localhost:5000/' : 'https://10.0.0.102:5000/';
-const rootPersistConfig = {
-  key: 'root',
-  storage: sessionStorage
-}
 
 const authPersistConfig = {
   key: "auth",
@@ -25,26 +26,31 @@ const authPersistConfig = {
 
 const loginFormPersistConfig = {
   key: "loginForm",
-  storage: storage,
+  storage: sessionStorage,
   whitelist: ["email"],
 };
 
-const rootReducer = combineReducers({
+const persistentRootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   loginForm: persistReducer(loginFormPersistConfig, loginFormReducer),
+  dashboard: dashboardReducer,
 });
 
-//root persist reducer
-const persistedReducer = persistReducer(rootPersistConfig, rootReducer)
-
-const makeStore = () => {
+export const makeStore = () => {
   return configureStore({
-    reducer: rootReducer,
+    reducer: persistentRootReducer,
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
-          ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+          ignoredActions: [
+            FLUSH,
+            REHYDRATE,
+            PAUSE,
+            PERSIST,
+            PURGE,
+            REGISTER
+          ],
         },
         thunk: {
           extraArgument: { serviceBaseApi }
@@ -58,10 +64,6 @@ const makeStore = () => {
   });
 }
 
-export const store = makeStore();
-
-export const persistor = persistStore(store);
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export type AppStore = typeof store;
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];

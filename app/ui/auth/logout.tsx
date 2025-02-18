@@ -1,5 +1,5 @@
-import loginService from '@/app/lib/login-service';
-import { logout, selectUser } from '@/app/store/auth/auth-slice';
+import loginService from '@/app/lib/services/login-service';
+import { selectUser } from '@/app/store/auth/auth-slice';
 import { resetLoginForm } from '@/app/store/auth/login-form-slice';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks/hooks';
 import { logoutAction, submitLoginFormAction } from '@/app/ui/auth/auth-thunks';

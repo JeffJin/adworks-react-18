@@ -105,6 +105,8 @@ export interface IImage extends IEntity {
   title: string;
   description: string;
   tags: string;
+  width?: number;
+  height?: number;
 }
 
 export interface IVideo extends IEntity {
@@ -114,7 +116,7 @@ export interface IVideo extends IEntity {
   hlsUrl: string;
   duration: number;
   sourceId: string;
-  sourceType: string;
+  fileType: string;
   category: string;
   type: string;
   title: string;
@@ -130,6 +132,7 @@ export interface IUser{
   userName: string;
   email: string;
   phoneNumber: string;
+  profileLogo?: string;
   token?: string;
 }
 

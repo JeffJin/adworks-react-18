@@ -1,4 +1,4 @@
-import { useTasks } from '@/app/tasks/tasks-provider';
+import { useTasks } from '@/app/(public)/tasks/tasks-provider';
 
 export default function TaskSummary() {
   const tasks = useTasks();

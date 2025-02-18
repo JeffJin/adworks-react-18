@@ -1,4 +1,4 @@
-import { tasksReducer } from '@/app/tasks/tasks-reducer';
+import { tasksReducer } from '@/app/(public)/tasks/tasks-reducer';
 import { ActionDispatch, createContext, useContext, useReducer } from 'react';
 
 export const TasksContext = createContext(null);
