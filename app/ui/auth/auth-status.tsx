@@ -1,4 +1,4 @@
-import { useAppSelector } from '@/app/store/hooks/hooks';
+import { useAppSelector } from '@/app/store/hooks/global';
 import React from 'react';
 
 

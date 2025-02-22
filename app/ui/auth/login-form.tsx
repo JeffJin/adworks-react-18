@@ -1,34 +1,27 @@
+'use client';
 import './login-form.scss';
 import {
+  loginFormActions,
   LoginFormStatus,
-  submitForm,
-  updateEmail,
-  updateError,
-  updateMessage,
-  updatePassword,
-  updateStatus,
-} from '@/app/store/auth/login-form-slice';
-import { useAppDispatch, useAppSelector } from '@/app/store/hooks/hooks';
-import { submitLoginFormAction } from '@/app/ui/auth/auth-thunks';
+} from '@/app/store/features/auth/login-form-slice';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks/global';
 import Link from 'next/link';
-
 
 export default function LoginForm() {
   const dispatch = useAppDispatch();
-  const {message, email, password, status} = useAppSelector(state => state.loginForm);
+  const {message, email, status} = useAppSelector(state => state.loginForm);
   const handleEmailChange = (event: any) => {
     event.preventDefault();
-    dispatch(updateEmail(event.target.value));
+    dispatch(loginFormActions.updateEmail(event.target.value));
   }
 
   const handlePasswordChange = (event: any) => {
     event.preventDefault();
-    dispatch(updatePassword(event.target.value));
   }
 
   function handleSubmit(event: any){
     event.preventDefault();
-    dispatch(submitLoginFormAction(email, password));
+    // dispatch(submitLoginFormAction(email, password));
   }
 
   const passwordValid = (pwd: string): boolean  => {
@@ -43,13 +36,13 @@ export default function LoginForm() {
     return !!result;
   }
 
-  const formValid = passwordValid(password) && emailValid(email);
+  // const formValid = passwordValid(password) && emailValid(email);
 
   const handleFocus = () => {
-    dispatch(updateStatus(LoginFormStatus.Typing));
+    // dispatch(updateStatus(LoginFormStatus.Typing));
   };
   const handleBlur = () => {
-    dispatch(updateStatus(LoginFormStatus.None));
+    // dispatch(updateStatus(LoginFormStatus.None));
   };
 
   return (
@@ -67,11 +60,11 @@ export default function LoginForm() {
           </div>
           <div className={"row"}>
             <label htmlFor={"pwd"}>Password:</label>
-            <input type={"password"} id={"pwd"} name={"pwd"} value={password}
+            <input type={"password"} id={"pwd"} name={"pwd"}
                    onChange={handlePasswordChange}  onFocus={handleFocus} onBlur={handleBlur} />
           </div>
           <div className={"row"}>
-            <button type="submit" disabled={!formValid || status == 'submitting'}>Login</button>
+            <button type="submit" disabled={status == 'submitting'}>Login</button>
           </div>
           <div className={"row"}>
             <button>

@@ -1,10 +1,11 @@
+import { IImage } from '@/app/lib/models/dtos';
 import { useFadeIn } from '@/app/ui/common/use-fade-in';
 import { useImperativeHandle, useRef } from 'react';
 
 export function ImagePreview({ref, image, handleImageClick}:
-                             { ref: any, image: { id: string, url: string }, handleImageClick: any }) {
+                             { ref: any, image: IImage, handleImageClick: any }) {
   const imgRef = useRef<HTMLImageElement | null>(null);
-  useFadeIn(imgRef, 1500);
+  useFadeIn(imgRef, 1000);
   useImperativeHandle(ref, () => ({
     // Only expose focus and nothing else
     scroll() {
@@ -17,8 +18,8 @@ export function ImagePreview({ref, image, handleImageClick}:
   }));
   return (
     <img
-      src={image.url}
-      alt={image.url}
+      src={image.cloudUrl}
+      alt={image.cloudUrl}
       ref={imgRef}
       onClick={() => handleImageClick(ref)}
     />

@@ -14,7 +14,7 @@ export async function fetchActivities() {
       { month: 'Oct', activities: 2800 },
       { month: 'Nov', activities: 3000 },
     ];
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     return activities;
   } catch (error) {
     console.error('Database Error:', error);

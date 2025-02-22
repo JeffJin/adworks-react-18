@@ -1,10 +1,10 @@
 'use client';
 
-import { dashboardActions } from '@/app/store/auth/dashboard-slice';
-import { useAppDispatch, useAppSelector, useAppStore } from '@/app/store/hooks/hooks';
+import { dashboardActions } from '@/app/store/features/dashboard/dashboard-slice';
+import { useAppDispatch, useAppSelector, useAppStore } from '@/app/store/hooks/global';
 import { Suspense, use, useRef } from 'react';
 import { VideoSkeleton } from '@/app/ui/common/skeletons';
-import { Videos } from '@/app/ui/dashboard/assets/videos';
+import { VideosList } from '@/app/ui/dashboard/assets/videos-list';
 
 export default function Page({
                                params,
@@ -15,12 +15,12 @@ export default function Page({
 }) {
 
   // Initialize the store with the product information
-  const store = useAppStore();
-  const initialized = useRef(false);
-  if (!initialized.current) {
-    store.dispatch(dashboardActions.initialize());
-    initialized.current = true;
-  }
+  // const store = useAppStore();
+  // const initialized = useRef(false);
+  // if (!initialized.current) {
+  //   store.dispatch(dashboardActions.initialize());
+  //   initialized.current = true;
+  // }
   const user = useAppSelector(state => state.auth.user);
   const dispatch = useAppDispatch();
 
@@ -29,7 +29,7 @@ export default function Page({
   return (
     <div className="flex flex-col">
       <Suspense fallback={<VideoSkeleton/>}>
-        <Videos/>
+        <VideosList/>
       </Suspense>
     </div>
   );

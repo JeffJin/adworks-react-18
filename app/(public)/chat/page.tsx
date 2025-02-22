@@ -1,12 +1,10 @@
 'use client';
-
 import { useOnlineStatus, useOnlineStatusEffect } from '@/app/(public)/chat/chat-api';
 import ContactList from '@/app/(public)/chat/chat-list';
 import ChatRoom from '@/app/(public)/chat/chat-room';
 import { fetchCustomers } from '@/app/lib/services/data';
 import { useCallback, useEffect, useState } from 'react';
 import Chat from './chat';
-
 
 export default function Page() {
   const [users, setUsers] = useState([] as User[]);

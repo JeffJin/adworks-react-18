@@ -11,6 +11,7 @@ const corsOptions = {
 
 // This function can be marked `async` if using `await` inside
 export function middleware(request: NextRequest) {
+  console.log('....................running middleware',  request.url, request.nextUrl)
   const nextUrl = request.nextUrl
   if (nextUrl.pathname === '/dashboard') {
     if (request.cookies.get('authToken')) {

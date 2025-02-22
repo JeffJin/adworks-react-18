@@ -28,22 +28,18 @@ export function DocumentSkeleton() {
 
 export function ImageSkeleton() {
   return (
-    <div
-      className={`${shimmer} images flex-grow`}
-    >
+    <div className={`${shimmer} images flex-grow`}>
       <div className="flex w-screen">
-
+        IMAGE Skeleton
       </div>
     </div>
   );
 }
 export function VideoSkeleton() {
   return (
-    <div
-      className={`${shimmer} videos flex-grow`}
-    >
+    <div className={`${shimmer} videos flex-grow`}>
       <div className="flex w-screen">
-
+        VIDEO Skeleton
       </div>
     </div>
   );

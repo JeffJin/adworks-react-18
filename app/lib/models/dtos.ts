@@ -1,3 +1,17 @@
+export interface ITask {
+  assetId: string;
+  type: string;
+  status: TaskStatus;
+}
+
+export enum TaskStatus {
+  STARTED = 'started',
+  COMPLETED = 'completed',
+  IN_PROGRESS = 'inProgress',
+  ABORTED = 'aborted',
+  CANCELED = 'canceled',
+}
+
 export interface IAudio extends IEntity {
   encodedFilePath: string;
   cloudUrl: string;
@@ -138,7 +152,6 @@ export interface IUser{
 
 export interface ILoginForm{
   email: string;
-  password: string;
   status: string;
   message: string;
 }

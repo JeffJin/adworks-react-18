@@ -1,4 +1,5 @@
 import { ILoginForm } from '@/app/lib/models/dtos';
+import { RootState } from '@/app/store/store';
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
@@ -11,31 +12,19 @@ export enum LoginFormStatus {
 
 const initialState: ILoginForm = {
   email: '',
-  password: '',
   message: '',
   status: LoginFormStatus.None,
 };
 
 export const loginFormSlice = createSlice({
-  name: "auth",
+  name: 'loginForm',
   initialState,
   reducers: {
-    submitForm: (state) => {
-      state.status = LoginFormStatus.Submitting;
-      state.message = '';
-    },
-    updateStatus: (state, action: PayloadAction<LoginFormStatus>) => {
-      state.status = action.payload;
-    },
-    updateError: (state, action: PayloadAction<{status: LoginFormStatus, message: string}>) => {
-      state.status = action.payload.status;
-      state.message = action.payload.message;
+    initialize: (state) => {
+
     },
     updateEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
-    },
-    updatePassword: (state, action: PayloadAction<string>) => {
-      state.password = action.payload;
     },
     updateMessage: (state, action: PayloadAction<string>) => {
       state.message = action.payload;
@@ -44,19 +33,11 @@ export const loginFormSlice = createSlice({
       state.message = '';
       state.status = LoginFormStatus.None;
       state.email = '';
-      state.password = '';
     },
 
   },
 });
 
-export const {
-  updateEmail,
-  updateStatus,
-  updateError,
-  updatePassword,
-  updateMessage,
-  submitForm,
-  resetLoginForm,
-} = loginFormSlice.actions;
+export const loginFormActions = loginFormSlice.actions;
 export const loginFormReducer = loginFormSlice.reducer;
+export const selectLoginFormEmail = (state: RootState) => state.loginForm.email;
