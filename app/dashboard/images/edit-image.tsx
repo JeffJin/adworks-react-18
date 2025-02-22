@@ -1,7 +1,7 @@
 'use client'
 
 import { IImage } from '@/app/lib/models/dtos';
-import { useGetImageByIdQuery } from '@/app/lib/services/adworks.api';
+import { useGetImageByIdQuery } from '@/app/store/api/adworks.api';
 import { useState } from 'react'
 import { Label, Listbox, ListboxButton, ListboxOption, ListboxOptions } from '@headlessui/react'
 import { CalendarIcon, PaperClipIcon, TagIcon, UserCircleIcon } from '@heroicons/react/20/solid'

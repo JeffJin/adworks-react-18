@@ -154,6 +154,7 @@ export interface ILoginForm{
   email: string;
   status: string;
   message: string;
+  rememberMe: boolean;
 }
 
 export interface IEntity{

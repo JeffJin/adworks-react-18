@@ -1,27 +1,29 @@
 'use client';
-import { useLogoutMutation } from '@/app/lib/services/adworks.api';
+import { useLogoutMutation } from '@/app/store/api/adworks.api';
 import { authActions } from '@/app/store/features/auth/auth-slice';
 import { useAppDispatch } from '@/app/store/hooks/global';
 import { ChatBubbleOvalLeftIcon } from '@heroicons/react/16/solid';
 import Link from 'next/link';
 import NavLinks from '@/app/ui/dashboard/nav-links';
-import AdworksLogo from "@/app/ui/common/adworks-logo";
+import AdworksLogo from '@/app/ui/common/adworks-logo';
 import { useRouter } from 'next/navigation';
 
 export default function SideNav() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const [logout, { isLoading, isError, isSuccess, data }] = useLogoutMutation();
+  const [ logout, { isLoading, isError, isSuccess, data } ] = useLogoutMutation();
   const handleLogout = async () => {
     try {
       await logout().unwrap();
       dispatch(authActions.logoutSuccess());
       router.push('/login');
-    } catch (error) {
+    } catch (error: any) {
       // handle login error
       console.error(error);
+      dispatch(authActions.logoutFailure(error.status));
+      router.push('/login');
     }
-  }
+  };
 
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
@@ -29,10 +31,10 @@ export default function SideNav() {
         className="mb-2 flex h-20 items-end justify-center rounded-md bg-blue-600 p-4 md:h-40"
         href="/"
       >
-        <AdworksLogo />
+        <AdworksLogo/>
       </Link>
       <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
-        <NavLinks />
+        <NavLinks/>
         <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
         <Link
           href="/chat">

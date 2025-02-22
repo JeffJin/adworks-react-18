@@ -88,11 +88,19 @@ export const adworksApi = createApi({
     }),
     login: builder.mutation({
       query: ({ email, password }) => {
-        console.log('login mutation', email, password);
         return {
           url: 'account/login',
           method: 'POST',
           body: { email, password }
+        }
+      }
+    }),
+    resetPassword: builder.mutation({
+      query: ({ email, password, confirmPassword, code }) => {
+        return {
+          url: 'account/reset_password',
+          method: 'POST',
+          body: { email, password, confirmPassword, code }
         }
       }
     }),
@@ -113,4 +121,5 @@ export const {
   useGetVideosQuery,
   useLoginMutation,
   useLogoutMutation,
+  useResetPasswordMutation,
 } = adworksApi;

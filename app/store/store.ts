@@ -1,4 +1,4 @@
-import { adworksApi, baseServiceApi } from '@/app/lib/services/adworks.api';
+import { adworksApi, baseServiceApi } from '@/app/store/api/adworks.api';
 import { chatReducer } from '@/app/store/features/chat/chat-slice';
 import { dashboardReducer } from '@/app/store/features/dashboard/dashboard-slice';
 import { loginFormReducer } from '@/app/store/features/auth/login-form-slice';
@@ -77,7 +77,7 @@ export const makeStore = () => {
         thunk: {
           extraArgument: { baseServiceApi }
         },
-      }).prepend(logger).concat(adworksApi.middleware).concat(sagaMiddleware),
+      }).concat(adworksApi.middleware).concat(sagaMiddleware),
       // }).prepend(logger).concat(adworksApi.middleware).prepend(imageListenerMiddleware.middleware),
     enhancers: getDefaultEnhancers => {
       return getDefaultEnhancers({

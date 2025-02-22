@@ -1,6 +1,5 @@
 import './globals.scss';
 import StoreProvider from '@/app/store/store-provider';
-import { inter } from '@/app/ui/fonts';
 
 export const dynamic = 'force-dynamic';
 export const experimental_ppr = true;
@@ -10,8 +9,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} antialiased md:subpixel-antialiased`}>
+    <html className="h-full bg-gray-50">
+      <body className="h-full">
         <StoreProvider>
           {children}
         </StoreProvider>

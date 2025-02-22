@@ -1,15 +1,17 @@
 import { ILoginForm, IUser } from '@/app/lib/models/dtos';
-import { adworksApi } from '@/app/lib/services/adworks.api';
+import { adworksApi } from '@/app/store/api/adworks.api';
 import { RootState } from '@/app/store/store';
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IAuthState {
   user: IUser | null;
+  error: string;
 }
 
 const initialState: IAuthState = {
   user: null,
+  error: '',
 };
 
 export const authSlice = createSlice({
@@ -21,13 +23,22 @@ export const authSlice = createSlice({
     },
     logoutSuccess: (state) => {
       state.user = null;
+      state.error = '';
+    },
+    logoutFailure: (state, action: PayloadAction<string>) => {
+      state.user = null;
+      state.error = action.payload;
+    },
+    resetPasswordSuccess: (state) => {
+    },
+    resetPasswordFailure: (state) => {
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       adworksApi.endpoints.login.matchFulfilled,
       (state, { payload }) => {
-        state.user = payload.user
+        // state.user = payload.user
       },
     )
   },

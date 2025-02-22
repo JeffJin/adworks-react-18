@@ -2,6 +2,7 @@ import { ILoginForm } from '@/app/lib/models/dtos';
 import { RootState } from '@/app/store/store';
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { REHYDRATE } from 'redux-persist';
 
 export enum LoginFormStatus {
   Typing = 'typing',
@@ -13,6 +14,7 @@ export enum LoginFormStatus {
 const initialState: ILoginForm = {
   email: '',
   message: '',
+  rememberMe: false,
   status: LoginFormStatus.None,
 };
 
@@ -26,6 +28,9 @@ export const loginFormSlice = createSlice({
     updateEmail: (state, action: PayloadAction<string>) => {
       state.email = action.payload;
     },
+    updateRememberMe: (state, action: PayloadAction<boolean>) => {
+      state.rememberMe = action.payload;
+    },
     updateMessage: (state, action: PayloadAction<string>) => {
       state.message = action.payload;
     },
@@ -34,8 +39,14 @@ export const loginFormSlice = createSlice({
       state.status = LoginFormStatus.None;
       state.email = '';
     },
-
   },
+  extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state) => {
+      if (!state.rememberMe) {
+        //state.email = '';
+      }
+    })
+  }
 });
 
 export const loginFormActions = loginFormSlice.actions;

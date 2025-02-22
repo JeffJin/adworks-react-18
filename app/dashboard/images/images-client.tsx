@@ -1,7 +1,6 @@
 'use client'
 import { IImage } from '@/app/lib/models/dtos';
-import { useGetImagesQuery } from '@/app/lib/services/adworks.api';
-import "./images.scss";
+import { useGetImagesQuery } from '@/app/store/api/adworks.api';
 import Loading from '@/app/ui/common/loading';
 import LoadingWarning from '@/app/ui/common/loading-warning';
 import { useDebounce } from '@/app/ui/dashboard/assets/image-hooks';
