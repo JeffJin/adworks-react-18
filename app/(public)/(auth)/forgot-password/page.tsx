@@ -2,7 +2,6 @@
 import { IUser } from '@/app/lib/models/dtos';
 import { useLoginMutation, useResetPasswordMutation } from '@/app/store/api/adworks.api';
 import { authActions, selectCurrentUser } from '@/app/store/features/auth/auth-slice';
-import { loginFormActions, selectLoginFormEmail } from '@/app/store/features/auth/login-form-slice';
 import { useAppDispatch, useAppSelector } from '@/app/store/hooks/global';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -31,7 +30,6 @@ export default function Page() {
 
   const handleEmailUpdate = (event: any) => {
     event.preventDefault();
-    dispatch(loginFormActions.updateEmail(event.target.value));
   };
 
   return (

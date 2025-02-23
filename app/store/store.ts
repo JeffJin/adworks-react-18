@@ -1,13 +1,9 @@
 import { adworksApi, baseServiceApi } from '@/app/store/api/adworks.api';
 import { chatReducer } from '@/app/store/features/chat/chat-slice';
 import { dashboardReducer } from '@/app/store/features/dashboard/dashboard-slice';
-import { loginFormReducer } from '@/app/store/features/auth/login-form-slice';
-import { imageListenerMiddleware } from '@/app/store/features/dashboard/image-listener.middleware';
-import storage from "redux-persist/lib/storage";
 import createSagaMiddleware from '@redux-saga/core';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import createWebStorage from 'redux-persist/es/storage/createWebStorage';
-import logger from './logger';
 import monitorReducerEnhancer from './monitorReducerEnhancer';
 import {
   persistReducer,
@@ -35,7 +31,7 @@ const createNoopStorage = () => {
 };
 
 const customStorage =
-  typeof window !== "undefined"
+  typeof window !== 'undefined'
     ? createWebStorage('local')
     : createNoopStorage();
 
@@ -45,16 +41,9 @@ const authPersistConfig = {
   whitelist: ["user"],
 };
 
-const loginFormPersistConfig = {
-  key: "loginForm",
-  storage: customStorage,
-  whitelist: ["email"],
-};
-
 const persistentRootReducer = combineReducers({
   [adworksApi.reducerPath]: adworksApi.reducer,
   auth: persistReducer(authPersistConfig, authReducer),
-  loginForm: persistReducer(loginFormPersistConfig, loginFormReducer),
   dashboard: dashboardReducer,
   chat: chatReducer,
 });

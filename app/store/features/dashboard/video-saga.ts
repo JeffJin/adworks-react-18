@@ -3,8 +3,6 @@ import { dashboardActions, videoUploaded } from '@/app/store/features/dashboard/
 import { call, put, takeEvery } from '@redux-saga/core/effects';
 import { Action, type PayloadAction } from '@reduxjs/toolkit';
 
-export const delay = (ms: number) => new Promise(res => setTimeout(res, ms))
-
 export function* createThumbnailsAsync(action: PayloadAction<{id: string}>) {
   const { id } = action.payload;
   const links: string[] = yield call(videoService.createThumbnails, id)

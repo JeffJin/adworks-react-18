@@ -1,4 +1,5 @@
-import { Activity } from '../definitions';
+import { Activity } from '@/app/lib/models/types';
+
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
