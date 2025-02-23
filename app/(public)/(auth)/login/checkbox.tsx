@@ -39,7 +39,7 @@ export const Checkbox = ({ isChecked, label, checkHandler, id }:
           </svg>
         </div>
       </div>
-      <label htmlFor={`checkbox-${id}`} className="block text-sm/6 text-gray-900">
+      <label htmlFor={`checkbox-${id}`} className="block text-sm/6 font-medium text-white">
         {label}
       </label>
     </div>

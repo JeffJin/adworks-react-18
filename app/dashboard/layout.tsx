@@ -1,20 +1,16 @@
 import SideNav from '@/app/ui/dashboard/sidenav';
-import { use } from 'react';
 
 export default function DashboardLayout({
-                                          children,
-                                          params,
+                                          children
                                         }: {
-  children: React.ReactNode,
-  params: Promise<{ org: string }>
+  children: React.ReactNode
 }) {
-  const { org } = use(params);
+
   return (
-      <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-        <div className="w-full flex-none md:w-64">
-          <SideNav/>
-        </div>
-        <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
-      </div>
+    <div>
+      <SideNav>
+        {children}
+      </SideNav>
+    </div>
   );
 }

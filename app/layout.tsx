@@ -9,7 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html className="h-full bg-gray-50">
+    <html className="h-full antialiased bg-gray-900" suppressHydrationWarning={true}>
       <body className="h-full">
         <StoreProvider>
           {children}
