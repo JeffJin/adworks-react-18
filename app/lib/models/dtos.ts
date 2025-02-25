@@ -159,6 +159,7 @@ export interface ILoginForm{
 
 export interface IEntity{
   id?: string;
+  fileSize: number;
   createdOn?: Date;
   updatedOn?: Date;
   createdBy?: string;

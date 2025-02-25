@@ -1,7 +1,8 @@
 'use client';
+import { DEFAULT_AVATAR } from '@/app/lib/settings';
 import { useLogoutMutation } from '@/app/store/api/adworks.api';
-import { authActions } from '@/app/store/features/auth/auth-slice';
-import { useAppDispatch } from '@/app/store/hooks/global';
+import { authActions, selectCurrentUser } from '@/app/store/features/auth/auth-slice';
+import { useAppDispatch, useAppSelector } from '@/app/store/hooks/global';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -31,20 +32,20 @@ import {
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 
 const navigation = [
-  { name: 'Overview', href: '/dashboard', icon: HomeIcon, current: true },
-  { name: 'Videos', href: '/dashboard/videos', icon: UsersIcon, current: false },
-  { name: 'Images', href: '/dashboard/images', icon: FolderIcon, current: false },
-  { name: 'Documents', href: '/dashboard/documents', icon: CalendarIcon, current: false },
-  { name: 'History', href: '/dashboard/history', icon: DocumentDuplicateIcon, current: false },
-  { name: 'Reports', href: '/dashboard/reports', icon: ChartPieIcon, current: false },
+  { name: 'Overview', href: '/dashboard', icon: HomeIcon},
+  { name: 'Videos', href: '/dashboard/videos', icon: UsersIcon },
+  { name: 'Images', href: '/dashboard/images', icon: FolderIcon },
+  { name: 'Documents', href: '/dashboard/documents', icon: CalendarIcon },
+  { name: 'History', href: '/dashboard/history', icon: DocumentDuplicateIcon },
+  { name: 'Reports', href: '/dashboard/reports', icon: ChartPieIcon },
 ]
-const teams = [
-  { id: 1, name: 'Heroicons', href: '#', initial: 'H', current: false },
-  { id: 2, name: 'Tailwind Labs', href: '#', initial: 'T', current: false },
-  { id: 3, name: 'Workcation', href: '#', initial: 'W', current: false },
+const settings = [
+  { id: 1, name: 'Profile', href: '/dashboard/profile', initial: 'P' },
+  { id: 2, name: 'Devices', href: '/dashboard/devices', initial: 'D' },
+  { id: 3, name: 'Experience', href: '/dashboard/experience', initial: 'E' },
 ]
 const userNavigation = [
-  { name: 'Your profile', href: '/auth/profile' },
+  { name: 'Your profile', href: '/dashboard/profile' },
   { name: 'Sign out', href: '/login' },
 ];
 
@@ -58,6 +59,9 @@ export default function SideNav({
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const dispatch = useAppDispatch();
   const [ logout, { isLoading, isError, isSuccess, data } ] = useLogoutMutation();
+  const user = useAppSelector(selectCurrentUser);
+
+
   const handleLogout = async () => {
     try {
       await logout().unwrap();
@@ -71,6 +75,7 @@ export default function SideNav({
     }
   };
 
+  const filteredList: string[] = ['/dashboard/profile'];;
   return (
     <div>
       <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
@@ -97,8 +102,8 @@ export default function SideNav({
             <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
               <div className="flex h-16 shrink-0 items-center">
                 <img
-                  alt="Your Company"
-                  src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+                  alt="adworks"
+                  src="/images/eWorks_logos_solid_secondary_dark_font.png"
                   className="h-8 w-auto"
                 />
               </div>
@@ -111,7 +116,7 @@ export default function SideNav({
                           <Link
                             href={item.href}
                             className={clsx(
-                              item.current
+                              item.href == pathName
                                 ? 'bg-gray-800 text-white'
                                 : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                               'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
@@ -125,14 +130,14 @@ export default function SideNav({
                     </ul>
                   </li>
                   <li>
-                    <div className="text-xs/6 font-semibold text-gray-400">Your teams</div>
+                    <div className="text-xs/6 font-semibold text-gray-400">Your settings</div>
                     <ul role="list" className="-mx-2 mt-2 space-y-1">
-                      {teams.map((team) => (
-                        <li key={team.name}>
+                      {settings.map((setting) => (
+                        <li key={setting.name}>
                           <Link
-                            href={team.href}
+                            href={setting.href}
                             className={clsx(
-                              team.current
+                              setting.href == pathName
                                 ? 'bg-gray-800 text-white'
                                 : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                               'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
@@ -140,9 +145,9 @@ export default function SideNav({
                           >
                               <span
                                 className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                                {team.initial}
+                                {setting.initial}
                               </span>
-                            <span className="truncate">{team.name}</span>
+                            <span className="truncate">{setting.name}</span>
                           </Link>
                         </li>
                       ))}
@@ -169,8 +174,8 @@ export default function SideNav({
         <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
           <div className="flex h-16 shrink-0 items-center">
             <img
-              alt="Your Company"
-              src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+              alt="adworks"
+              src="/images/eWorks_logos_solid_secondary_dark_font.png"
               className="h-8 w-auto"
             />
           </div>
@@ -197,14 +202,14 @@ export default function SideNav({
                 </ul>
               </li>
               <li>
-                <div className="text-xs/6 font-semibold text-gray-400">Your teams</div>
+                <div className="text-xs/6 font-semibold text-gray-400">Your settings</div>
                 <ul role="list" className="-mx-2 mt-2 space-y-1">
-                  {teams.map((team) => (
-                    <li key={team.name}>
+                  {settings.map((setting) => (
+                    <li key={setting.name}>
                       <a
-                        href={team.href}
+                        href={setting.href}
                         className={clsx(
-                          team.href == pathName
+                          setting.href == pathName
                             ? 'bg-gray-800 text-white'
                             : 'text-gray-400 hover:bg-gray-800 hover:text-white',
                           'group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold',
@@ -212,9 +217,9 @@ export default function SideNav({
                       >
                           <span
                             className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">
-                            {team.initial}
+                            {setting.initial}
                           </span>
-                        <span className="truncate">{team.name}</span>
+                        <span className="truncate">{setting.name}</span>
                       </a>
                     </li>
                   ))}
@@ -237,7 +242,11 @@ export default function SideNav({
 
       <div className="lg:pl-72">
         <div
-          className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
+          className={clsx(
+            filteredList.includes(pathName)
+              ? 'hidden'
+              : '',
+          'sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8')}>
           <button type="button" onClick={() => setSidebarOpen(true)} className="-m-2.5 p-2.5 text-gray-700 lg:hidden">
             <span className="sr-only">Open sidebar</span>
             <Bars3Icon aria-hidden="true" className="size-6"/>
@@ -274,13 +283,13 @@ export default function SideNav({
                 <MenuButton className="-m-1.5 flex items-center p-1.5">
                   <span className="sr-only">Open user menu</span>
                   <img
-                    alt=""
-                    src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                    alt={user?.userName}
+                    src={user?.profileLogo ?? DEFAULT_AVATAR}
                     className="size-8 rounded-full bg-gray-50"
                   />
                   <span className="hidden lg:flex lg:items-center">
                       <span aria-hidden="true" className="ml-4 text-sm/6 font-semibold text-gray-900">
-                        Tom Cook
+                        {user?.userName}
                       </span>
                       <ChevronDownIcon aria-hidden="true" className="ml-2 size-5 text-gray-400"/>
                     </span>
@@ -305,7 +314,12 @@ export default function SideNav({
           </div>
         </div>
 
-        <main className="py-10 bg-white dashboard-content" style={{ height: 'calc(100vh - 64px)'}}>
+        <main className={clsx(
+          filteredList.includes(pathName)
+          ? 'bg-gray-900'
+          : 'bg-white',
+          'py-10 dashboard-content'
+        )} style={{ height: 'calc(100vh - 64px)'}}>
           <div className="px-4 sm:px-6 lg:px-8">{children}</div>
         </main>
       </div>

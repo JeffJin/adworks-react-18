@@ -1,4 +1,12 @@
-import { resolve } from 'node:dns';
+export function calcFileSize(fileSize: number): string {
+  const sizeInKb = fileSize / 1024;
+
+  if (sizeInKb > 1024) {
+    return `${(sizeInKb / 1024).toFixed(2)} mb`;
+  } else {
+    return `${sizeInKb.toFixed(0)} kb`;
+  }
+}
 
 export function getImageInfo(url: string): Promise<ImageInfo | null> {
   const img = new Image();

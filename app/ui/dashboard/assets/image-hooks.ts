@@ -1,6 +1,6 @@
 import { fetchLatestImages } from '@/app/lib/services/data';
 import { VisibleImage } from '@/app/lib/models/dtos';
-import { getImageInfo } from '@/app/lib/utils/imageUtils';
+import { getImageInfo } from '@/app/lib/utils/image-utils';
 import { createRef, RefObject, useCallback, useEffect, useState } from 'react';
 
 export function useImages(count: number): VisibleImage[] {
@@ -53,7 +53,6 @@ export function useImages(count: number): VisibleImage[] {
 
 
 export const useImageRefs = (size: number) => {
-  console.log('useImageRefs:: size = ', size);
   const [imageRefs, setImageRefs] = useState<Array<RefObject<any>>>([]);
   useEffect(() => {
     // add or remove refs

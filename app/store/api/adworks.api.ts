@@ -1,5 +1,6 @@
 import { IImage, IUser, IVideo } from '@/app/lib/models/dtos';
 import { RootState } from '@/app/store/store';
+import { useDebounce } from '@/app/ui/dashboard/assets/image-hooks';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 export const baseServiceApi =  process.env.NODE_ENV !== "production"
@@ -13,14 +14,13 @@ export const adworksApi = createApi({
       // By default, if we have a token in the store, let's use that for authenticated requests
       const token = (getState() as RootState)?.auth?.user?.token;
       if (token) {
-        console.log('token', token);
         headers.set('authorization', `Bearer ${token}`)
       }
       return headers;
     },
   }),
   endpoints: (builder) => ({
-    getVideos: builder.query<IVideo, { pageIndex: number, pageSize: number, category: string }>({
+    getVideos: builder.query<IVideo[], { pageIndex: number, pageSize: number, category: string }>({
       query: (arg) => {
         const { pageIndex, pageSize, category } = arg;
         return {
@@ -29,7 +29,7 @@ export const adworksApi = createApi({
         };
       }
     }),
-    getImages: builder.query<IImage,  { pageIndex: number, pageSize: number, category: string }>({
+    getImages: builder.query<IImage[],  { pageIndex: number, pageSize: number, category: string }>({
       query: (arg) => {
         const { pageIndex = 0, pageSize = 12, category = ''} = arg;
         return {

@@ -1,6 +1,6 @@
 import { IImage, ITask, TaskStatus } from '@/app/lib/models/dtos';
 import { adworksApi } from '@/app/store/api/adworks.api';
-import { getImageInfo } from '@/app/lib/utils/imageUtils';
+import { getImageInfo } from '@/app/lib/utils/image-utils';
 import { RootState } from '@/app/store/store';
 import { Action, configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 
