@@ -146,7 +146,7 @@ export interface IUser{
   userName: string;
   email: string;
   phoneNumber: string;
-  profileLogo?: string;
+  profileLogo: string;
   token?: string;
 }
 
@@ -165,3 +165,9 @@ export interface IEntity{
   createdBy?: string;
   updatedBy?: string;
 }
+
+export interface IToken{
+  token: string;
+}
+
+

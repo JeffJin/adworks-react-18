@@ -1,16 +1,26 @@
-import { ILoginForm, IUser } from '@/app/lib/models/dtos';
+import { ILoginForm, IToken, IUser } from '@/app/lib/models/dtos';
+import { DEFAULT_AVATAR } from '@/app/lib/settings';
 import { adworksApi } from '@/app/store/api/adworks.api';
 import { RootState } from '@/app/store/store';
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface IAuthState {
-  user: IUser | null;
+  user: IUser;
   error: string;
 }
 
+const DEFAULT_USER = {
+  email: '',
+  userName: '',
+  phoneNumber: '',
+  profileLogo: DEFAULT_AVATAR,
+  token: '',
+
+}
+
 const initialState: IAuthState = {
-  user: null,
+  user: DEFAULT_USER,
   error: '',
 };
 
@@ -22,11 +32,18 @@ export const authSlice = createSlice({
       state.user = action.payload;
     },
     logoutSuccess: (state) => {
-      state.user = null;
+      state.user = DEFAULT_USER;
       state.error = '';
     },
+    tokenReceived: (state, action: PayloadAction<IToken>) => {
+      if(!state.user) {
+        console.error('invalid user state to refresh token');
+      } else {
+        state.user!.token = action.payload.token;
+      }
+    },
     logoutFailure: (state, action: PayloadAction<string>) => {
-      state.user = null;
+      state.user = DEFAULT_USER;
       state.error = action.payload;
     },
     resetPasswordSuccess: (state) => {

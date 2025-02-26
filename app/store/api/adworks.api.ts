@@ -1,24 +1,10 @@
-import { IImage, IUser, IVideo } from '@/app/lib/models/dtos';
-import { RootState } from '@/app/store/store';
-import { useDebounce } from '@/app/ui/dashboard/assets/image-hooks';
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IImage, IToken, IUser, IVideo } from '@/app/lib/models/dtos';
+import baseQueryWithReauth from '@/app/store/api/base-query-with-reauth';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-export const baseServiceApi =  process.env.NODE_ENV !== "production"
-  ? 'http://localhost:5000/api/' : 'https://10.0.0.102:5000/api/';
 export const adworksApi = createApi({
   reducerPath: 'adworksApi',
-  baseQuery: fetchBaseQuery({
-    baseUrl: baseServiceApi,
-    credentials: "include",
-    prepareHeaders: (headers, { getState }) => {
-      // By default, if we have a token in the store, let's use that for authenticated requests
-      const token = (getState() as RootState)?.auth?.user?.token;
-      if (token) {
-        headers.set('authorization', `Bearer ${token}`)
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder) => ({
     getVideos: builder.query<IVideo[], { pageIndex: number, pageSize: number, category: string }>({
       query: (arg) => {
@@ -29,16 +15,16 @@ export const adworksApi = createApi({
         };
       }
     }),
-    getImages: builder.query<IImage[],  { pageIndex: number, pageSize: number, category: string }>({
+    getImages: builder.query<IImage[], { pageIndex: number, pageSize: number, category: string }>({
       query: (arg) => {
-        const { pageIndex = 0, pageSize = 12, category = ''} = arg;
+        const { pageIndex = 0, pageSize = 12, category = '' } = arg;
         return {
           url: 'images',
           params: { pageIndex, pageSize, category },
         };
       }
     }),
-    addWatermarkToImage: builder.mutation<IImage,  { image: IImage, text: string }>({
+    addWatermarkToImage: builder.mutation<IImage, { image: IImage, text: string }>({
       query: (arg) => {
         const { image, text } = arg;
         return {
@@ -48,7 +34,7 @@ export const adworksApi = createApi({
         };
       }
     }),
-    getImageById: builder.query<IImage,  { id: string }>({
+    getImageById: builder.query<IImage, { id: string }>({
       query: (arg) => {
         const { id } = arg;
         return {
@@ -92,7 +78,24 @@ export const adworksApi = createApi({
           url: 'account/login',
           method: 'POST',
           body: { email, password }
-        }
+        };
+      }
+    }),
+    validateToken: builder.mutation<boolean, { token: string }>({
+      query: ({ token }) => {
+        return {
+          url: 'account/validate_token',
+          method: 'POST',
+          body: { token }
+        };
+      }
+    }),
+    refreshToken: builder.mutation<IToken, void>({
+      query: () => {
+        return {
+          url: 'account/refresh_token',
+          method: 'POST',
+        };
       }
     }),
     resetPassword: builder.mutation({
@@ -101,7 +104,7 @@ export const adworksApi = createApi({
           url: 'account/reset_password',
           method: 'POST',
           body: { email, password, confirmPassword, code }
-        }
+        };
       }
     }),
     logout: builder.mutation<void, void>({
@@ -111,13 +114,15 @@ export const adworksApi = createApi({
       })
     }),
   }),
-})
+});
 
 export const {
   useGetImagesQuery,
   useGetImageByIdQuery,
   useAddWatermarkToImageMutation,
   useGetCurrentUserQuery,
+  useRefreshTokenMutation,
+  useValidateTokenMutation,
   useGetVideosQuery,
   useLoginMutation,
   useLogoutMutation,

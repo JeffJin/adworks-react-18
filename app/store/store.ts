@@ -1,4 +1,5 @@
-import { adworksApi, baseServiceApi } from '@/app/store/api/adworks.api';
+import { adworksApi } from '@/app/store/api/adworks.api';
+import { baseServiceApi } from '@/app/store/api/base-query-with-reauth';
 import { chatReducer } from '@/app/store/features/chat/chat-slice';
 import { dashboardReducer } from '@/app/store/features/dashboard/dashboard-slice';
 import createSagaMiddleware from '@redux-saga/core';
@@ -37,6 +38,7 @@ const customStorage =
 
 const authPersistConfig = {
   key: "auth",
+  timeout: 100, //WORKAROUND https://github.com/rt2zz/redux-persist/issues/816
   storage: customStorage,
   whitelist: ["user"],
 };

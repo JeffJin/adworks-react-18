@@ -46,7 +46,6 @@ const settings = [
 ]
 const userNavigation = [
   { name: 'Your profile', href: '/dashboard/profile' },
-  { name: 'Sign out', href: '/login' },
 ];
 
 export default function SideNav({
@@ -61,7 +60,6 @@ export default function SideNav({
   const [ logout, { isLoading, isError, isSuccess, data } ] = useLogoutMutation();
   const user = useAppSelector(selectCurrentUser);
 
-
   const handleLogout = async () => {
     try {
       await logout().unwrap();
@@ -75,7 +73,7 @@ export default function SideNav({
     }
   };
 
-  const filteredList: string[] = ['/dashboard/profile'];;
+  const filteredList: string[] = ['/dashboard/profile'];
   return (
     <div>
       <Dialog open={sidebarOpen} onClose={setSidebarOpen} className="relative z-50 lg:hidden">
@@ -154,13 +152,14 @@ export default function SideNav({
                     </ul>
                   </li>
                   <li className="mt-auto">
-                    <Link
-                      href="/login"
+                    <a
+                      href="javascript:void(0)"
+                      onClick={handleLogout}
                       className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-gray-800 hover:text-white"
                     >
                       <Cog6ToothIcon aria-hidden="true" className="size-6 shrink-0"/>
                       Logout
-                    </Link>
+                    </a>
                   </li>
                 </ul>
               </nav>
@@ -283,13 +282,13 @@ export default function SideNav({
                 <MenuButton className="-m-1.5 flex items-center p-1.5">
                   <span className="sr-only">Open user menu</span>
                   <img
-                    alt={user?.userName}
-                    src={user?.profileLogo ?? DEFAULT_AVATAR}
+                    alt={user.userName}
+                    src={user.profileLogo}
                     className="size-8 rounded-full bg-gray-50"
                   />
                   <span className="hidden lg:flex lg:items-center">
                       <span aria-hidden="true" className="ml-4 text-sm/6 font-semibold text-gray-900">
-                        {user?.userName}
+                        {user.userName}
                       </span>
                       <ChevronDownIcon aria-hidden="true" className="ml-2 size-5 text-gray-400"/>
                     </span>
@@ -300,14 +299,23 @@ export default function SideNav({
                 >
                   {userNavigation.map((item) => (
                     <MenuItem key={item.name}>
-                      <a
+                      <Link
                         href={item.href}
                         className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     </MenuItem>
                   ))}
+                  <MenuItem key={'signout'}>
+                    <a
+                      href="javascript:void(0)"
+                      onClick={handleLogout}
+                      className="block px-3 py-1 text-sm/6 text-gray-900 data-focus:bg-gray-50 data-focus:outline-hidden"
+                    >
+                      Sign out
+                    </a>
+                  </MenuItem>
                 </MenuItems>
               </Menu>
             </div>
